@@ -17,6 +17,13 @@
         <kotlin.code.style>official</kotlin.code.style>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jetbrains-markdown</id>
+            <url>http://dl.bintray.com/jetbrains/markdown</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -34,6 +41,12 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>markdown</artifactId>
+            <version>0.1.31</version>
         </dependency>
 
         <dependency>
