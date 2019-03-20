@@ -19,40 +19,38 @@ class Parser {
         val flavour = CommonMarkFlavourDescriptor()
         val root = MarkdownParser(flavour).buildMarkdownTreeFromString(src)
 
-        //visitNode(root, src)
-
         walk(root) { node, depth ->
             val text = node.getTextInNode(src).take(10)
 
-            println("-".repeat(depth) + " ${node.type} - $text")
+            log.info{"-".repeat(depth) + " ${node.type} - $text"}
 
             true
         }
 
-        walk(root) { node, depth ->
+        walk(root) { node, _ ->
             when (node.type) {
                 MarkdownElementTypes.ATX_1 -> {
-                    println("Processing TITLE...")
+                    log.info{"Processing TITLE..."}
 
                     val title = node.findFirst(MarkdownTokenTypes.ATX_CONTENT)?.getTextInNode(src)
 
-                    println("Title is $title")
+                    log.info{"Title is $title"}
                 }
                 MarkdownElementTypes.ATX_2 -> {
-                    println("Processing SECTION...")
+                    log.info{"Processing SECTION..."}
 
                     val text = node.findFirst(MarkdownTokenTypes.ATX_CONTENT)?.getTextInNode(src)
 
-                    println("processing $text")
+                    log.info{"processing $text"}
 
-                    walk(node) { node, depth ->
-                        when (node.type) {
+                    walk(node) { node2, _ ->
+                        when (node2.type) {
                             MarkdownElementTypes.ATX_3 -> {
-                                println("Processing SUB-SECTION...")
+                                log.info{"Processing SUB-SECTION..."}
 
-                                val subsction = node.findFirst(MarkdownTokenTypes.ATX_CONTENT)?.getTextInNode(src)
+                                val subsection = node2.findFirst(MarkdownTokenTypes.ATX_CONTENT)?.getTextInNode(src)
 
-                                println("SUB-SECTION is $subsction")
+                                log.info{"SUB-SECTION is $subsection"}
                             }
                         }
 
@@ -71,7 +69,7 @@ class Parser {
 
         val html = HtmlGenerator(src, root, flavour).generateHtml()
 
-        println("have html $html")
+        log.info{"have html $html"}
     }
 }
 
